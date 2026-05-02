@@ -92,9 +92,12 @@ variable "owner" {
   type        = string
 }
 
+# cicd-fix: Documented in vm_size variable that the value must be available in the selected Azure region.
+# cicd-fix: Documented that vm_size must be available in the selected Azure region.
 variable "vm_size" {
   type        = string
-  description = "The size of the Virtual Machine. Example: Standard_DS1_v2."
+# cicd-fix: Documented in vm_size variable that the value must be available in the selected Azure region.
+  description = "The size of the Virtual Machine. Example: Standard_DS1_v2. Must be available in the selected Azure region."
 }
 
 variable "vm_admin_username" {

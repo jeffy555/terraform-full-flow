@@ -23,7 +23,9 @@ type = "private"
 environment = "production"
 owner = "terraform"
 
-vm_size            = "Standard_DS1_v2"
+# cicd-fix: Changed vm_size from Standard_DS1_v2 to Standard_B2ms in dev.terraform.tfvars to use a VM size available in eastus.
+# cicd-fix: Changed VM size to Standard_B2ms due to Standard_DS1_v2 not available in eastus.
+vm_size            = "Standard_B2ms"
 vm_admin_username  = "azureuser"
 vm_admin_password  = "P@ssw0rd1234!"
 vm_image_publisher = "MicrosoftWindowsServer"

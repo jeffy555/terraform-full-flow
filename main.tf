@@ -130,6 +130,8 @@ resource "azurerm_windows_virtual_machine" "terraform_root_vm" {
   computer_name       = "tfrootvm"
   location            = azurerm_resource_group.terraform_root_rg.location
   resource_group_name = azurerm_resource_group.terraform_root_rg.name
+# cicd-fix: Set azurerm_windows_virtual_machine size to var.vm_size (now Standard_B2ms) and documented the change.
+  # cicd-fix: Changed VM size to Standard_B2ms due to Standard_DS1_v2 not available in eastus.
   size                = var.vm_size
   admin_username      = var.vm_admin_username
   admin_password      = var.vm_admin_password
