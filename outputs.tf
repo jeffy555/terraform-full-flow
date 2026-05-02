@@ -32,3 +32,13 @@ output "key_vault_id" {
   description = "The ID of the Azure Key Vault."
   value       = azurerm_key_vault.terraformrootkv996262.id
 }
+
+output "terraform_root_vm_id" {
+  description = "The ID of the Virtual Machine."
+  value       = azurerm_windows_virtual_machine.terraform_root_vm.id
+}
+
+output "terraform_root_vm_private_ip" {
+  description = "The private IP address of the VM."
+  value       = azurerm_network_interface.terraform_root_vm_nic.private_ip_address
+}

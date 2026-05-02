@@ -20,8 +20,15 @@ name = "Allow-HTTPS-Inbound"
 
 account_tier = "Standard"
 type = "private"
-# cicd-fix: Added values for the existing required environment and owner variables so CI can plan without prompting.
-# cicd-fix: provide values for existing required variables in non-interactive CI plan.
 environment = "production"
-# cicd-fix: provide values for existing required variables in non-interactive CI plan.
 owner = "terraform"
+
+vm_size            = "Standard_DS1_v2"
+vm_admin_username  = "azureuser"
+vm_admin_password  = "P@ssw0rd1234!"
+vm_image_publisher = "MicrosoftWindowsServer"
+vm_image_offer     = "WindowsServer"
+vm_image_sku       = "2019-Datacenter"
+vm_image_version   = "latest"
+
+storage_account_type = "Standard_LRS"

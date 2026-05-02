@@ -67,7 +67,6 @@ variable "key_vault_name" {
   description = "Name of the Azure Key Vault."
 }
 
-
 variable "account_tier" {
   description = "Value for account_tier"
   type        = string
@@ -92,4 +91,45 @@ variable "owner" {
   description = "Value for owner"
   type        = string
 }
-# cicd-fix: CI validate repair
+
+variable "vm_size" {
+  type        = string
+  description = "The size of the Virtual Machine. Example: Standard_DS1_v2."
+}
+
+variable "vm_admin_username" {
+  type        = string
+  description = "The admin username for the Virtual Machine."
+  sensitive   = true
+}
+
+variable "vm_admin_password" {
+  type        = string
+  description = "The admin password for the Virtual Machine."
+  sensitive   = true
+}
+
+variable "vm_image_publisher" {
+  type        = string
+  description = "The publisher of the VM image. Example: MicrosoftWindowsServer."
+}
+
+variable "vm_image_offer" {
+  type        = string
+  description = "The offer of the VM image. Example: WindowsServer."
+}
+
+variable "vm_image_sku" {
+  type        = string
+  description = "The SKU of the VM image. Example: 2019-Datacenter."
+}
+
+variable "vm_image_version" {
+  type        = string
+  description = "The version of the VM image. Use 'latest' for latest version."
+}
+
+variable "storage_account_type" {
+  description = "Value for storage_account_type"
+  type        = string
+}
