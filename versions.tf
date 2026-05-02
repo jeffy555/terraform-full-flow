@@ -1,9 +1,2 @@
-terraform {
-  required_version = ">= 1.3.0"
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 4.0"
-    }
-  }
-}
+# cicd-fix: Removed the duplicate required_providers configuration from versions.tf, leaving provider requirements defined once in provider.tf.
+# cicd-fix: remove duplicate required_providers block; provider requirements are defined once in provider.tf.

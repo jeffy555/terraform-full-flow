@@ -20,3 +20,8 @@ name = "Allow-HTTPS-Inbound"
 
 account_tier = "Standard"
 type = "private"
+# cicd-fix: Added values for the existing required environment and owner variables so CI can plan without prompting.
+# cicd-fix: provide values for existing required variables in non-interactive CI plan.
+environment = "production"
+# cicd-fix: provide values for existing required variables in non-interactive CI plan.
+owner = "terraform"

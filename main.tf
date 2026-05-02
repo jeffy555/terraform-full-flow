@@ -11,26 +11,35 @@ resource "azurerm_storage_account" "terraformroot996262" {
   account_tier             = var.account_tier
   account_replication_type = var.storage_account_replication_type
   min_tls_version          = "TLS1_2"
-  allow_blob_public_access = false
-  enable_https_traffic_only = true
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: use azurerm 4.x storage account public access argument name.
+  allow_nested_items_to_be_public = false
+  # cicd-fix: use azurerm 4.x HTTPS-only storage account argument name.
+  https_traffic_only_enabled = true
   tags                     = var.tags
 }
 
 resource "azurerm_storage_container" "public" {
   name                  = var.public_container_name
-  storage_account_name  = azurerm_storage_account.terraformroot996262.name
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: azurerm 4.x storage containers require storage_account_id.
+  storage_account_id    = azurerm_storage_account.terraformroot996262.id
   container_access_type = var.type
 }
 
 resource "azurerm_storage_container" "private" {
   name                  = var.private_container_name
-  storage_account_name  = azurerm_storage_account.terraformroot996262.name
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: azurerm 4.x storage containers require storage_account_id.
+  storage_account_id    = azurerm_storage_account.terraformroot996262.id
   container_access_type = var.type
 }
 
 resource "azurerm_storage_container" "default" {
   name                  = var.default_container_name
-  storage_account_name  = azurerm_storage_account.terraformroot996262.name
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: azurerm 4.x storage containers require storage_account_id.
+  storage_account_id    = azurerm_storage_account.terraformroot996262.id
   container_access_type = var.type
 }
 
@@ -81,12 +90,16 @@ resource "azurerm_key_vault" "terraformrootkv996262" {
   location                    = azurerm_resource_group.terraform_root_rg.location
   resource_group_name         = azurerm_resource_group.terraform_root_rg.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
-  sku_name                    = var.name
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: set Key Vault SKU to a valid azurerm value instead of the NSG rule name variable.
+  sku_name                    = "standard"
   enable_rbac_authorization   = true
-  soft_delete_enabled         = true
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
+  # cicd-fix: azurerm 4.x always enables Key Vault soft delete; removed unsupported soft_delete_enabled.
   purge_protection_enabled    = true
   public_network_access_enabled = true
   tags                       = var.tags
 }
 
 data "azurerm_client_config" "current" {}
+# cicd-fix: Updated the storage account public access and HTTPS-only attributes to azurerm 4.x names.
