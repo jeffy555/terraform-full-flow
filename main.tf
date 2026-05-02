@@ -74,8 +74,11 @@ resource "azurerm_key_vault" "terraformrootkv996262" {
   location                    = azurerm_resource_group.terraform_root_rg.location
   resource_group_name         = azurerm_resource_group.terraform_root_rg.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id
-  sku_name                    = var.name
-  enable_rbac_authorization   = true
+# cicd-fix: Replaced the deprecated Key Vault RBAC argument with rbac_authorization_enabled for azurerm 4.x.
+  # cicd-fix: Use a valid Key Vault SKU instead of the shared name variable.
+  sku_name                    = "standard"
+  # cicd-fix: Use azurerm 4.x Key Vault RBAC argument name.
+  rbac_authorization_enabled  = true
   purge_protection_enabled    = true
   public_network_access_enabled = true
   tags                       = var.tags
@@ -91,11 +94,13 @@ resource "azurerm_network_interface" "terraform_root_vm_nic" {
   ip_configuration {
     name                          = var.name
     subnet_id                     = azurerm_subnet.terraform_root_subnet.id
-    private_ip_address_allocation = var.location
+# cicd-fix: Replaced the deprecated Key Vault RBAC argument with rbac_authorization_enabled for azurerm 4.x.
+    # cicd-fix: Use a valid NIC private IP allocation value for azurerm 4.x.
+    private_ip_address_allocation = "Dynamic"
   }
 
-  network_security_group_id = azurerm_network_security_group.terraform_root_nsg.id
-
+# cicd-fix: Replaced the deprecated Key Vault RBAC argument with rbac_authorization_enabled for azurerm 4.x.
+  # cicd-fix: Removed unsupported NIC network_security_group_id; subnet NSG association applies the NSG.
   tags = var.tags
 }
 
@@ -117,7 +122,9 @@ resource "azurerm_windows_virtual_machine" "terraform_root_vm" {
   source_image_reference {
     publisher = var.vm_image_publisher
     offer     = var.vm_image_offer
-    sku = "Standard_DS2_v2"
+# cicd-fix: Replaced the deprecated Key Vault RBAC argument with rbac_authorization_enabled for azurerm 4.x.
+    # cicd-fix: Use the configured Windows image SKU instead of the VM size SKU.
+    sku       = var.vm_image_sku
     version   = var.vm_image_version
   }
 
