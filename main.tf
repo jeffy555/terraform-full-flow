@@ -18,6 +18,25 @@ resource "azurerm_storage_account" "terraformroot996262" {
 
 locals {
   container_names = [var.public_container_name, var.private_container_name, var.default_container_name]
+# cicd-fix: Added moved blocks mapping the prior public, private, and default container addresses to the for_each instances to avoid duplicate container creation during the refactor.
+}
+
+# cicd-fix: Preserve existing public container state address during the for_each refactor.
+moved {
+  from = azurerm_storage_container.public
+  to   = azurerm_storage_container.containers["public"]
+}
+
+# cicd-fix: Preserve existing private container state address during the for_each refactor.
+moved {
+  from = azurerm_storage_container.private
+  to   = azurerm_storage_container.containers["private"]
+}
+
+# cicd-fix: Preserve existing default container state address during the for_each refactor.
+moved {
+  from = azurerm_storage_container.default
+  to   = azurerm_storage_container.containers["default"]
 }
 
 resource "azurerm_storage_container" "containers" {
@@ -106,6 +125,9 @@ resource "azurerm_network_interface" "terraform_root_vm_nic" {
 
 resource "azurerm_windows_virtual_machine" "terraform_root_vm" {
   name                = var.name
+# cicd-fix: Added moved blocks mapping the prior public, private, and default container addresses to the for_each instances to avoid duplicate container creation during the refactor.
+  # cicd-fix: Set a Windows computer name within Azure's 15-character limit.
+  computer_name       = "tfrootvm"
   location            = azurerm_resource_group.terraform_root_rg.location
   resource_group_name = azurerm_resource_group.terraform_root_rg.name
   size                = var.vm_size
@@ -128,7 +150,9 @@ resource "azurerm_windows_virtual_machine" "terraform_root_vm" {
     version   = var.vm_image_version
   }
 
-  enable_automatic_updates = true
+# cicd-fix: Added moved blocks mapping the prior public, private, and default container addresses to the for_each instances to avoid duplicate container creation during the refactor.
+  # cicd-fix: Use the azurerm 4.x replacement for deprecated enable_automatic_updates.
+  automatic_updates_enabled = true
   provision_vm_agent       = true
 
   tags = var.tags
